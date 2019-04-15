@@ -1,31 +1,32 @@
-# Diagnóstico de itens e pressupostos da Análise Fatorial Exploratória
+# DiagnÃ³stico de itens e pressupostos da AnÃ¡lise Fatorial ExploratÃ³ria
+# https://www.dropbox.com/s/vj1hfvgy076mgc6/Script%20EFA.R?dl=0
 install.packages("psych")
 library(psych)
-# Pressupostos, correlação e diagnóstico de itens (inspeção gráfica)
-# A análise fatorial é uma técnica que parte da hipótese da causa comum, 
-# isto é, a correlação entre itens de um teste ou de subtestes
-# é explicada por uma ou mais variáveis latentes, não observáveis. 
-# Dito de outra forma, a análise fatorial assume um efeito causal a 
-# partir de correlações entre observáveis
+# Pressupostos, correlaÃ§Ã£o e diagnÃ³stico de itens (inspeÃ§Ã£o grÃ¡fica)
+# A anÃ¡lise fatorial Ã© uma tÃ©cnica que parte da hipÃ³tese da causa comum, 
+# isto Ã©, a correlaÃ§Ã£o entre itens de um teste ou de subtestes
+# Ã© explicada por uma ou mais variÃ¡veis latentes, nÃ£o observÃ¡veis. 
+# Dito de outra forma, a anÃ¡lise fatorial assume um efeito causal a 
+# partir de correlaÃ§Ãµes entre observÃ¡veis
 
-# Para investigar essas correlações, vamos observar a distribuição dos itens:
-# use este comando para redefinir o plano de gráficos "par(mfrow=c(1,1))"
+# Para investigar essas correlaÃ§Ãµes, vamos observar a distribuiÃ§Ã£o dos itens:
+# use este comando para redefinir o plano de grÃ¡ficos "par(mfrow=c(1,1))"
 
 # carregando os bancos
 ESV<-read.csv("https://raw.githubusercontent.com/wagnerLM/SBP/master/ESV.csv",sep=";")
 View(ESV)
 # Acrescentando labels
-ESV_labels<-list("A minha vida está próxima do meu ideal","Minhas condições de vida são excelentes","Eu estou satisfeito com a minha vida","Até agora eu tenho conseguido as coisas importantes que eu quero na vida"," Se eu pudesse viver a minha vida de novo eu não mudaria quase nada")
+ESV_labels<-list("A minha vida estÃ¡ prÃ³xima do meu ideal","Minhas condiÃ§Ãµes de vida sÃ£o excelentes","Eu estou satisfeito com a minha vida","AtÃ© agora eu tenho conseguido as coisas importantes que eu quero na vida"," Se eu pudesse viver a minha vida de novo eu nÃ£o mudaria quase nada")
 ESV_labels
 View(ESV_labels)
-# construa histogramas das variáveis
+# construa histogramas das variÃ¡veis
 hist(ESV[,1])
 shapiro.test(ESV[,1])
 
-# observe as correlações entre os itens
+# observe as correlaÃ§Ãµes entre os itens
 cor.plot(ESV[,-c(6,7)],numbers = TRUE)
 
-# por fim, produza um gráfico com scatter plot, histogramas e correlações
+# por fim, produza um grÃ¡fico com scatter plot, histogramas e correlaÃ§Ãµes
 pairs.panels(ESV[,-c(6,7)], histogram=TRUE, pch=19)
 
 #KMO
@@ -35,7 +36,7 @@ KMO(ESV[,-c(6,7)])
 ?cortest.bartlett
 cortest.bartlett(ESV[,-c(6,7)])
 
-#- Tecnicas de retenção de fatores (Kaiser, Scree test, VSS, MAP, Análise paralela)
+#- Tecnicas de retenÃ§Ã£o de fatores (Kaiser, Scree test, VSS, MAP, AnÃ¡lise paralela)
 ESV_eig<-eigen(cor(ESV[,-c(6,7)]))
 plot(ESV_eig$values,type="b")
 
@@ -45,10 +46,10 @@ ESV_vss<-
   VSS(ESV[,-c(6,7)],cor="poly")
 VSS.plot(ESV_vss)
 
-# Análise paralela
+# AnÃ¡lise paralela
 fa.parallel(ESV[,-c(6,7)],cor="poly")
 
-# Análise fatorial 
+# AnÃ¡lise fatorial 
 fa(ESV[,-c(6,7)],cor="poly",fm="minrank")
 # Cargas fatoriais, comunalidade, uniqueness 
 
@@ -61,7 +62,7 @@ View(Big5)
 fa.parallel(Big5[,-c(26,27)],cor="poly")
 fa(Big5[,-c(26,27)],5,cor="poly",fm="minrank")
 
-# rotação oblíqua
+# rotaÃ§Ã£o oblÃ­qua
 fa(Big5[,-c(26,27)],5,cor="poly",fm="minrank",rotate = "oblimin")
 
 # Fidedignidade: alpha e Lambda 6 Guttman
@@ -75,7 +76,7 @@ alpha(Big5[,c(5,10,15,20,25)])
 # Escores fatoriais
 Big5_fa<-fa(Big5[,-c(26,27)],5,cor="poly",fm="minrank",rotate = "oblimin",scores = "regression")
 
-# Permite usar o escore modelado para investigar associações com variáveis relevantes
+# Permite usar o escore modelado para investigar associaÃ§Ãµes com variÃ¡veis relevantes
 
 # teste t por sexo
 t.test(Big5_fa$scores[,1]~Big5$Sexo)
@@ -85,7 +86,7 @@ t.test(Big5_fa$scores[,4]~Big5$Sexo)
 t.test(Big5_fa$scores[,5]~Big5$Sexo)
 boxplot(Big5_fa$scores[,5]~Big5$Sexo)
 
-# correlações com variáveis externas/critério
+# correlaÃ§Ãµes com variÃ¡veis externas/critÃ©rio
 plot(Big5_fa$scores[,3]~Big5$Idade)
 abline(lm(Big5_fa$scores[,3]~Big5$Idade),col="red")
 cor(Big5_fa$scores[,3],Big5$Idade)
