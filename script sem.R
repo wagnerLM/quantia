@@ -23,6 +23,8 @@ semPaths(sem_fit,what = "std",fade=F,style = "lisrel",intercepts = F,thresholds 
 
 # Veja a existência de índices de modificação:
 modindices(sem_fit)
+# Quais mudanças são relevantes? Possuem sentido teórico?
+# Faça uma abordagem hierárquica, escolhendo a implementando as modificiações com maior índice e que possuam sentido teórico
 
 # Reespecifique seu modelo: 
 sem_mod2<-'
