@@ -26,7 +26,7 @@ modindices(sem_fit)
 # Quais mudanças são relevantes? Possuem sentido teórico?
 # Faça uma abordagem hierárquica, escolhendo a implementando as modificiações com maior índice e que possuam sentido teórico
 
-# Reespecifique seu modelo: 
+# Reespecifique seu modelo, incluindo a relação mais relevante: 
 sem_mod2<-'
 SV =~ SV1 + SV2 + SV3 + SV4 + SV5
 AP =~ animado + dinamico + entusiasmado + inspirado + produtivo
@@ -35,5 +35,5 @@ SV ~ AP + AN + idade + sexo + rendafam
 '
 sem_fit2<-sem(sem_mod2,sem_b,ordered = colnames(sem_b))
 summary(sem_fit2,fit.measures=T,standardized=T,rsq=T)
-# Compare os modelos: 
+# Compare os modelos, com o teste de ANOVA: 
 anova(sem_fit,sem_fit2)
