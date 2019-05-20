@@ -6,7 +6,8 @@ sem_b<-read.csv("https://raw.githubusercontent.com/wagnerLM/quantia/master/sem_e
 View(sem_b)
 cor.plot(cor(sem_b),numbers = T)
 
-# Crie um modelo:
+# Crie um modelo especificando:
+# SV como desfecho (VD), AP, AN, Idade, Sexo e Renda como preditores (VIÂ´s)
 sem_mod<-'
 SV =~ SV1 + SV2 + SV3 + SV4 + SV5
 AP =~ animado + dinamico + entusiasmado + inspirado + produtivo
@@ -20,7 +21,7 @@ summary(sem_fit,fit.measures=T,standardized=T,rsq=T)
 # Visualize o modelo:
 semPaths(sem_fit,what = "std",fade=F,style = "lisrel",intercepts = F,thresholds = F,rotation = 2,layout = "tree2",edge.color = "black",residuals = F)
 
-# Veja a existência de índices de modificação:
+# Veja a existÃªncia de Ã­ndices de modificaÃ§Ã£o:
 modindices(sem_fit)
 
 # Reespecifique seu modelo: 
